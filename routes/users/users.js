@@ -5,7 +5,7 @@ const router = express.Router()
 
 
 
-router.get('/user', function (req, res) {
+router.get('/user',  (req, res) =>{
     res.send('Hello World!');
   });
   
