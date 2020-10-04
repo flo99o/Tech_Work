@@ -6,13 +6,13 @@ const router = express.Router()
 
 //   USERS
 
-//Admin can get users (checked good)
+//Admin can get all users (checked good)
 router.get('/users', (req, res) => {
-    connection.query('SELECT * FROM Job.users', (err, resultat) => {
+    connection.query('SELECT * FROM Job.users', (err, results) => {
         if (err) {
             res.status(500).send('Don\'t find all users')
         } else {
-            res.send(resultat)
+            res.send(results)
         }
     })
 })
@@ -20,17 +20,17 @@ router.get('/users', (req, res) => {
 // Admin get user by id (checked good)
 router.get('/user/:id', (req, res) => {
     const id = req.params.id
-    connection.query('SELECT * FROM Job.users WHERE id=?', id, (err, resultat) => {
+    connection.query('SELECT * FROM Job.users WHERE id=?', id, (err, results) => {
         if (err) {
             res.status(500, 'Don\t find the user')
         } else {
-            res.send(resultat)
+            res.send(results)
 
         }
     })
 })
 
-//Admin can update users infos (checked good)
+//Admin can update users infos (checked good) + password
 
 router.put('/userinfo',(req, res)=>{
     const info = req.body
@@ -66,11 +66,11 @@ router.delete('/userDelete/:id', (req, res) => {
 
 //Admin can get all offers (checked good)
 router.get('/offers', (req, res) => {
-    connection.query('SELECT * FROM Job.offers', (err, resultat) => {
+    connection.query('SELECT * FROM Job.offers', (err, results) => {
         if (err) {
             res.status(500).send('Didn\'T find all offers')
         } else {
-            res.send(resultat)
+            res.send(results)
 
         }
     })
@@ -91,12 +91,11 @@ router.post('/offers', (req, res) => {
     })
 })
 
-//Admin can delete an offer
+//Admin can delete an offer (casscade)
 router.delete('/offerDelete/:id',(req, res)=>{
     const id = req.params.id
  connection.query('DELETE FROM Job.offers WHERE id =?', id,(err, results)=>{
      if(err){
-         console.log(err)
          res.status(500).send('This offer has not been deleted')
      }else{
          res.send(results)
