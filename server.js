@@ -13,9 +13,9 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 
-app.use('/', router.users)
-app.use('/', router.admin)
-app.use('/', router.compagny)
+app.use('/users', router.users)
+app.use('/admin', router.admin)
+app.use('/compagny', router.compagny)
 app.listen(port, () => {
     console.log (`listening on port ${port}`)
 })
