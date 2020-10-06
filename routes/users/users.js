@@ -4,18 +4,35 @@ const { route } = require('../admin/admin')
 const router = express.Router()
 
 
-///////////////////////// GET
+/////////////////////////////////////// GET
+
+// get latestjob
 router.get('/getLatestjobs', (req, res) => {
     connection.query(`SELECT * FROM Job.offers
     INNER JOIN Job.compagnies
     ON compagnies.id = offers.compagny_id
     INNER JOIN  Job.recruiter
-    ON recruiter.id = offers.recruiter_id `, (err,results) => {
+    ON recruiter.id = offers.recruiter_id 
+    LIMIT 10 `, (err,results) => {
         if (err) {
             console.log('error: ', err);
             res.status(500).send('Error retrieving offers')
         }else res.status(200).json(results)
     })
+})
+
+//get filter's values
+router.get('/getValuesFilter', (req, res) => {
+  connection.query(`SELECT offers.title, compagny_name, offers.ville FROM Job.offers
+  INNER JOIN Job.compagnies
+  ON compagnies.id = offers.compagny_id
+  INNER JOIN  Job.recruiter
+  ON recruiter.id = offers.recruiter_id  `, (err,results) => {
+      if (err) {
+          console.log('error: ', err);
+          res.status(500).send('Error retrieving datas')
+      }else res.status(200).json(results)
+  })
 })
 
 // user can post his info (checked good)
