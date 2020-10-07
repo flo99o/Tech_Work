@@ -37,6 +37,21 @@ router.get('/userGetOffer', (req, res) => {
 
 
 
+// user can selct one offer 
+router.get('/userSelectOffer', (req, res)=>{
+  const id = req.params.id
+  connection.query('SELECT * FROM Job.offers WHERE =? id',id, (err, results)=>{
+    if(err){
+      console.log(err)
+      res.status(500).send('This user didn\'t get this offer')
+    }else{
+      console.log(results)
+      res.status(200).send('This user select this offer.')
+    }
+  })
+})
+
+
 // users can update their information + password
 router.put('/updateUserInfo/:id', (req, res) => {
   const details = req.body
