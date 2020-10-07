@@ -7,7 +7,7 @@ router.post('./auth', (req, res)=>{
     const username = req.body.email
     const password= req.body.passeword
 
-    if(username && password === true){
+    if(username && password){
         connection.query(`SELECT * FROM Job.users WHERE`)
     }
 })
