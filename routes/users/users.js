@@ -67,7 +67,7 @@ router.get('/userGetOffer', (req, res) => {
 })
 
 
-
+ 
 // users can update their information + password
 router.put('/updateUserInfo/:id', (req, res) => {
   const details = req.body
@@ -79,8 +79,23 @@ router.put('/updateUserInfo/:id', (req, res) => {
       res.status(results)
     }
   })
+}) 
 
+
+router.get('/GetOffer/:id', (req, res)=>{
+  const id = req.params.id
+  connection.query(`SELECT * FROM Job.offers
+  INNER JOIN Job.compagnies
+  ON compagnies.id = offers.compagny_id
+  INNER JOIN  Job.recruiter
+  ON recruiter.id = offers.recruiter_id WHERE offers.id = ${id}`, (err, results)=>{ 
+    if(err){
+      console.log(err)
+      res.status(500).send('This user didn\'t get this offer')
+    }else{
+      res.status(200).json(results)
+    }
+  })
 })
-
 
 module.exports = router
