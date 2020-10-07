@@ -30,6 +30,20 @@ router.get('/user/:id', (req, res) => {
     })
 })
 
+// get all compagnies
+router.get('/compagnies', (req, res) => {
+    
+    connection.query('SELECT compagny_name, compagnies.id AS id FROM Job.compagnies', (err, results) => {
+        if (err) {
+            console.log('error: ',err);
+            res.status(500, 'Don\t find the user')
+        } else {
+            res.status(200).json(results)
+
+        }
+    })
+}) 
+
 //Admin can update users infos (checked good) + password
 
 router.put('/userinfo',(req, res)=>{
@@ -64,6 +78,8 @@ router.delete('/userDelete/:id', (req, res) => {
 
 //     OFFERS
 
+//
+
 //Admin can get all offers (checked good)
 router.get('/offers', (req, res) => {
     connection.query('SELECT * FROM Job.offers', (err, results) => {
@@ -73,6 +89,19 @@ router.get('/offers', (req, res) => {
             res.send(results)
 
         }
+    })
+})
+// List of offers display on AdminProfile page
+router.get('/usersForAdmin', (req, res) => {
+    connection.query(`SELECT offers.title, offers.type, compagnies.compagny_name  FROM Job.offers
+    INNER JOIN Job.compagnies
+    ON compagnies.id = offers.compagny_id
+    INNER JOIN  Job.recruiter
+    ON recruiter.id = offers.recruiter_id  `, (err,results) => {
+        if (err) {
+            console.log('error: ', err);
+            res.status(500).send('Error retrieving offers')
+        }else res.status(200).json(results)
     })
 })
 

@@ -6,7 +6,19 @@ const router = express.Router()
 
 /////////////////////////////////////// GET
 
-// get latestjob
+// get all details of user
+router.get('/userDetails/:id', (req, res) => {
+  const id = req.params.id
+  connection.query(`SELECT * FROM Job.users WHERE id = ${id}
+   `, (err,results) => {
+      if (err) {
+          console.log('error: ', err);
+          res.status(500).send('Error retrieving offers')
+      }else res.status(200).json(results)
+  })
+})
+
+// get latestjob (all routes)
 router.get('/getLatestjobs', (req, res) => {
     connection.query(`SELECT * FROM Job.offers
     INNER JOIN Job.compagnies
