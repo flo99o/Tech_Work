@@ -4,7 +4,6 @@ const router = express.Router()
 
 
 
-//   USERS
 
 //Admin can get all users (checked good)
 router.get('/users', (req, res) => {
@@ -81,16 +80,7 @@ router.delete('/userDelete/:id', (req, res) => {
 //
 
 //Admin can get all offers (checked good)
-router.get('/offers', (req, res) => {
-    connection.query('SELECT * FROM Job.offers', (err, results) => {
-        if (err) {
-            res.status(500).send('Didn\'T find all offers')
-        } else {
-            res.send(results)
 
-        }
-    })
-})
 // List of offers display on AdminProfile page
 router.get('/usersForAdmin', (req, res) => {
     connection.query(`SELECT offers.title, offers.type, compagnies.compagny_name  FROM Job.offers
@@ -106,19 +96,7 @@ router.get('/usersForAdmin', (req, res) => {
 })
 
 //Admin can add an offers (checked good)
-router.post('/offers', (req, res) => {
-    const content = req.body
-  
-    console.log(content)
-    connection.query(`INSERT INTO offers (title, description, release_date, limit_date, recruiter_id, compagny_id ) VALUES ("${content.title}","${content.description}","${content.release_date}","${content.limit_date}", "${content.recruiter_id}")`, (err,resultat) => {
-        if (err) {
-            console.log(err)
-            res.status(500).send('Can\'t post an offers')
-        } else {
-            res.status(200).json(resultat)
-        }
-    })
-})
+
 
 //Admin can delete an offer (casscade)
 router.delete('/offerDelete/:id',(req, res)=>{
@@ -150,5 +128,22 @@ router.delete('/compagnyDelete/:id', (req, res) => {
     })
 })
 
+/////////////////////////////////////////////////////////  
+router.post('/offers', (req, res) => {
+    const content = req.body
+    console.log('content: ', content)
+    console.log('title: ', content.title)
+
+
+    connection.query (`INSERT INTO Job.offers (job_name, compagny_name,description_compagny, description_position,recruiter_name, location, wage, contract, logo) VALUES ("${content.job_name}", "${content.compagny_name}", "${content.desc_compagny}", "${content.desc_position}", "${content.supervisor}", "${content.location}", "${content.wage}", "${content.contract}", "${content.logo}")`, (err, results) => {
+        if(err) { 
+            console.log(err);
+            return res.status(500).send('The recipe has not been saved to favorite list')
+        } else {
+            res.status(200).send('the recipe has been saved to favorite list')
+        }
+    })  
+})  
+ 
 
 module.exports = router

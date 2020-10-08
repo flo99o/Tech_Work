@@ -18,9 +18,9 @@ router.get('/userDetails/:id', (req, res) => {
   })
 })
 
-// get latestjob (all routes)
+// Tracy get latestjob (all routes)
 router.get('/getLatestjobs', (req, res) => {
-    connection.query(`SELECT * FROM Job.offers
+    connection.query(`SELECT *, offers.id AS idOffers FROM Job.offers
     INNER JOIN Job.compagnies
     ON compagnies.id = offers.compagny_id
     INNER JOIN  Job.recruiter
@@ -33,9 +33,9 @@ router.get('/getLatestjobs', (req, res) => {
     })
 })
 
-//get filter's values
+// Tracy get filter's values (all routes)
 router.get('/getValuesFilter', (req, res) => {
-  connection.query(`SELECT offers.title, compagny_name, offers.ville FROM Job.offers
+  connection.query(`SELECT DISTINCT offers.job_name, offers.compagny_name, offers.location FROM Job.offers
   INNER JOIN Job.compagnies
   ON compagnies.id = offers.compagny_id
   INNER JOIN  Job.recruiter
@@ -93,7 +93,7 @@ router.put('/updateUserInfo/:id', (req, res) => {
   })
 }) 
 
-
+//Tracy
 router.get('/GetOffer/:id', (req, res)=>{
   const id = req.params.id
   connection.query(`SELECT * FROM Job.offers
