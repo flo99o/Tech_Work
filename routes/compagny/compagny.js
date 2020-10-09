@@ -4,6 +4,9 @@ const { route } = require('../admin/admin')
 const router = express.Router()
 
 
+
+
+
 //Compagny can post offers (checked good)
 router.post('/compagnyPostOffer', (req, res) => {
     const details = req.body
@@ -27,7 +30,7 @@ router.put('/compagnyUpdateOffer', (req, res) => {
             console.log(err)
             res.status(500).send('The offer has not been updated')
         } else {
-            res.status(200).send(results)
+            res.status(200).json(results)
         }
     })
 })
@@ -41,7 +44,7 @@ router.put('/compagnyUpdateInfo', (req, res) => {
             console.log(err)
             res.status(500).send('The compagny infos has not been updated')
         } else {
-            res.status(200).send(results)
+            res.status(200).json(results)
         }
     })
 })
@@ -55,8 +58,7 @@ router.delete('/compagnyDeleteOffer/:id', (req, res) => {
             console.log(err)
             res.status(500).send('This compagny has not delete this offer')
         } else {
-            console.log(results)
-            res.status(200).send('This compagny has deleted this offer')
+            res.status(200).json(results)
         }
     })
 })
@@ -71,8 +73,7 @@ router.delete('/compagnyDelete/:id', (req, res) => {
             res.status(500).send('This has not deleted her informations')
 
         } else {
-            res.send(results)
-            res.status(200).send('This compagny has been deleted')
+            res.status(200).json(results)
         }
     })
 })
