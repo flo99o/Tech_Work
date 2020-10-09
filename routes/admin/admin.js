@@ -6,29 +6,36 @@ const router = express.Router()
 
 //   USERS
 
-//Admin can get all users (checked good)
-router.get('/users', (req, res) => {
+router.get('/user',(req, res)=>{
+    res.send('Hello')
+})
+
+//Admin can get all users 
+router.get('/getUsers', (res) => {
     connection.query('SELECT * FROM Job.users', (err, results) => {
         if (err) {
+            console.log(err)
             res.status(500).send('Don\'t find all users')
         } else {
-            res.send(results)
+            res.status(200).send('all users here')
         }
     })
 })
 
-// Admin get user by id (checked good)
-router.get('/user/:id', (req, res) => {
-    const id = req.params.id
-    connection.query('SELECT * FROM Job.users WHERE id=?', id, (err, results) => {
-        if (err) {
-            res.status(500, 'Don\t find the user')
-        } else {
-            res.send(results)
 
+// Adminc can get all offers
+router.get('/getOffers',(res)=>{
+    connection.query('SELECT * FROM Job.offers', (err, results)=>{
+        if(err){
+            console.log(err)
+            res.status(500).send('Didn\'t find all offers')
+        }else{
+            res.status(200).send('all offers here')
         }
     })
 })
+
+
 
 //Admin can update users infos (checked good) + password
 

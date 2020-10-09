@@ -1,6 +1,5 @@
 const connection = require('../../config')
 const express = require('express')
-const { route } = require('../admin/admin')
 const router = express.Router()
 
 
