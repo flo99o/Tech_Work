@@ -5,7 +5,6 @@ const bodyParser = require ('body-parser')
 var cors = require('cors')
 const morgan = require('morgan')
 
-const { authRoutes } = require('./routes/index');
 
 const port = process.env.PORT || 5000
 
@@ -22,11 +21,11 @@ app.get('/', (req, res)=>{
 })
 
 
-
-
+//MIDDLEWARE 
 app.use('/user', router.users)
 app.use('/admin', router.admin)
 app.use('/compagny', router.compagny)
+app.use('/allpeople', router.allPeople)
 
 
 

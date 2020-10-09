@@ -2,8 +2,25 @@ const connection = require('../../config')
 const express = require('express')
 const router = express.Router()
 
-//getOffers pour fichier allPeople
 
+
+//Register
+router.post('/register',(req, res)=>{
+    const content = req.body
+    connection.query(`INSERT INTO Job.users(first_name, last_name,password,email, logo, type, compagny_name, phone, description_compagny) VALUES ("${content.first_name}", "${content.last_name}", "${content.password}","${content.email}","${content.logo}", "${content.type}", "${content.compagny_name}", "${content.phone}", "${content.description_compagny}")`, (err, results)=>{
+        if(err){
+            console.log('err :',err)
+            res.status(500).send('The content have not been register')
+        }else{
+            res.status(200).json(results)
+        }
+    })
+})
+
+
+
+
+//getOffers pour fichier allPeople
 router.get('/getOffers', (req, res) => {
     connection.query(`SELECT * FROM Job.offers
     INNER JOIN Job.compagnies
@@ -15,6 +32,8 @@ router.get('/getOffers', (req, res) => {
         }else res.status(200).json(results)
     })
 })
+
+
 
 
 //getValuesFilter pour le fichier allPeople

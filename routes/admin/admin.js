@@ -6,124 +6,75 @@ const router = express.Router()
 
 //   USERS
 
-router.get('/user',(req, res)=>{
-    res.send('Hello')
-})
 
-//Admin can get all users 
-router.get('/getUsers', (res) => {
+//Admin can get all users (checked)
+router.get('/getUsers', (req,res) => {
     connection.query('SELECT * FROM Job.users', (err, results) => {
         if (err) {
-            console.log(err)
+            console.log('error: ', err)
             res.status(500).send('Don\'t find all users')
         } else {
-            res.status(200).send('all users here')
+            res.status(200).json(results)
         }
     })
 })
 
-
-// Adminc can get all offers
-router.get('/getOffers',(res)=>{
-    connection.query('SELECT * FROM Job.offers', (err, results)=>{
-        if(err){
-            console.log(err)
-            res.status(500).send('Didn\'t find all offers')
-        }else{
-            res.status(200).send('all offers here')
-        }
-    })
-})
-
-
-
-//Admin can update users infos (checked good) + password
-
-router.put('/userinfo',(req, res)=>{
-    const info = req.body
-    //password
-    connection.query(`UPDATE users SET email="${info.email}" WHERE id="${info.id}"`,(err)=>{
-        if(err){
-            console.log(err)
-            res.status(500).send('The new details have not been update')
-        }else{
-            res.status(200).send('The new details have been updated')
-        }
-    })
-})
-
-//Admin can delete an user (checked good)
+//Admin can delete an user (checked)
 router.delete('/userDelete/:id', (req, res) => {
-    const id = req.params.id
-
-    connection.query('DELETE FROM Job.users WHERE id=?', id, (err, resultat) => {
+    const userID = req.params.userID
+    connection.query(`DELETE FROM Job.users WHERE userID = "${userID}"`, (err, results) => {
         if (err) {
+            console.log('error: ', err)
             res.status(500).send('This user have not been deleted')
 
         } else {
-            console.log(resultat)
-            res.status(200).send('The user have been deleted')
-
+            res.status(200).json(results)
         }
     })
 })
 
+//OFFERS
 
-//     OFFERS
 
-//Admin can get all offers (checked good)
-router.get('/offers', (req, res) => {
-    connection.query('SELECT * FROM Job.offers', (err, results) => {
-        if (err) {
-            res.status(500).send('Didn\'T find all offers')
-        } else {
-            res.send(results)
-
-        }
-    })
-})
-
-//Admin can add an offers (checked good)
-router.post('/offers', (req, res) => {
-    const content = req.body
-  
-    console.log(content)
-    connection.query(`INSERT INTO offers (title, description, release_date, limit_date, recruiter_id, compagny_id ) VALUES ("${content.title}","${content.description}","${content.release_date}","${content.limit_date}", "${content.recruiter_id}")`, (err,resultat) => {
-        if (err) {
-            console.log(err)
-            res.status(500).send('Can\'t post an offers')
-        } else {
-            res.status(200).json(resultat)
-        }
-    })
-})
-
-//Admin can delete an offer (casscade)
+//Admin can delete an offer (checked)
 router.delete('/offerDelete/:id',(req, res)=>{
-    const id = req.params.id
- connection.query('DELETE FROM Job.offers WHERE id =?', id,(err, results)=>{
+    const offerID = req.params.offerID
+ connection.query(`DELETE FROM Job.offers WHERE offerID = "${offerID}"`,(err, results)=>{
      if(err){
+         console.log('error: ', err)
          res.status(500).send('This offer has not been deleted')
      }else{
-         res.send(results)
-         res.status(200).send('This offers has been deleted')
+        res.status(200).json(results)
      }
- })
+  })
 })
+
 
 //      COMPAGNIES
 
 
 //Admin can delete Compagny (checked good)
+router.get('/compagnies', (req, res)=>{
+    connection.query('SELECT * FROM Job.compagnies', (err, results)=>{
+        if(err){
+            console.log('error: ', err)
+            res.status(500).send('The admin didn\'t get all compagnies')
+        }else{
+            res.status(200).json(results)
+        }
+    })
+})
+
+// Admin can delete a compagny (checked)
 router.delete('/compagnyDelete/:id', (req, res) => {
-    const id = req.params.id
-    connection.query('DELETE FROM Job.compagnies WHERE id =?', id, (err) => {
+    const compagnyID = req.params.compagnyID
+    connection.query(`DELETE FROM Job.compagnies WHERE compagnyID = "${compagnyID}"`,(err , results) => {
         if (err) {
-            console.log(err)
+            console.log('error: ', err)
             res.status(500).send('This compagny have not been deleted')
         } else {
 
-            res.status(200).send('The compagny have been deleted')
+            res.status(200).json(results)
         }
     })
 })
