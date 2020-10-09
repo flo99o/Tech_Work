@@ -18,14 +18,14 @@ router.get('/userDetails/:id', (req, res) => {
   })
 })
 
-// Tracy get latestjob (all routes)
-router.get('/getLatestjobs', (req, res) => {
-    connection.query(`SELECT *, offers.id AS idOffers FROM Job.offers
+// Tracy get offers (all routes)
+router.get('/getOffers', (req, res) => {
+    connection.query(`SELECT * FROM Job.offers
     INNER JOIN Job.compagnies
-    ON compagnies.id = offers.compagny_id
-    INNER JOIN  Job.recruiter
-    ON recruiter.id = offers.recruiter_id 
-    LIMIT 10 `, (err,results) => {
+    ON compagnies.compagnyID = offers.compagny_id
+    INNER JOIN Job.users
+    ON users.userID = offers.user_id
+    `, (err,results) => {
         if (err) {
             console.log('error: ', err);
             res.status(500).send('Error retrieving offers')
@@ -35,11 +35,9 @@ router.get('/getLatestjobs', (req, res) => {
 
 // Tracy get filter's values (all routes)
 router.get('/getValuesFilter', (req, res) => {
-  connection.query(`SELECT DISTINCT offers.job_name, offers.compagny_name, offers.location FROM Job.offers
+  connection.query(`SELECT DISTINCT offers.job_name, compagnies.compagny_name, offers.location FROM Job.offers
   INNER JOIN Job.compagnies
-  ON compagnies.id = offers.compagny_id
-  INNER JOIN  Job.recruiter
-  ON recruiter.id = offers.recruiter_id  `, (err,results) => {
+  ON compagnies.compagnyID = offers.compagny_id`, (err,results) => {
       if (err) {
           console.log('error: ', err);
           res.status(500).send('Error retrieving datas')
@@ -94,13 +92,13 @@ router.put('/updateUserInfo/:id', (req, res) => {
 }) 
 
 //Tracy
-router.get('/GetOffer/:id', (req, res)=>{
+router.get('/getOffer/:id', (req, res)=>{
   const id = req.params.id
   connection.query(`SELECT * FROM Job.offers
-  INNER JOIN Job.compagnies
-  ON compagnies.id = offers.compagny_id
-  INNER JOIN  Job.recruiter
-  ON recruiter.id = offers.recruiter_id WHERE offers.id = ${id}`, (err, results)=>{ 
+    INNER JOIN Job.compagnies
+    ON compagnies.compagnyID = offers.compagny_id
+    INNER JOIN Job.users
+    ON users.userID = offers.user_id WHERE offers.offerID = ${id}`, (err, results)=>{ 
     if(err){
       console.log(err)
       res.status(500).send('This user didn\'t get this offer')

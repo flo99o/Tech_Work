@@ -128,22 +128,20 @@ router.delete('/compagnyDelete/:id', (req, res) => {
     })
 })
 
-/////////////////////////////////////////////////////////  
-router.post('/offers', (req, res) => {
+//
+router.post('/register',(req, res)=>{
     const content = req.body
-    console.log('content: ', content)
-    console.log('title: ', content.title)
-
-
-    connection.query (`INSERT INTO Job.offers (job_name, compagny_name,description_compagny, description_position,recruiter_name, location, wage, contract, logo) VALUES ("${content.job_name}", "${content.compagny_name}", "${content.desc_compagny}", "${content.desc_position}", "${content.supervisor}", "${content.location}", "${content.wage}", "${content.contract}", "${content.logo}")`, (err, results) => {
-        if(err) { 
-            console.log(err);
-            return res.status(500).send('The recipe has not been saved to favorite list')
-        } else {
-            res.status(200).send('the recipe has been saved to favorite list')
+    connection.query(`INSERT INTO Job.users(first_name, last_name,password,email, logo, type, compagny_name, phone, description_compagny) VALUES ("${content.first_name}", "${content.last_name}", "${content.password}","${content.email}","${content.logo}", "${content.type}", "${content.compagny_name}", "${content.phone}", "${content.description_compagny}")`, (err, results)=>{
+        if(err){
+            console.log('err :',err)
+            res.status(500).send('The content have not been register')
+        }else{
+            res.status(200).json(results)
         }
-    })  
-})  
- 
+    })
+})
+
+/////////////////////////////////////////////////////////  
+
 
 module.exports = router

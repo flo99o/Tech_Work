@@ -4,6 +4,21 @@ const { route } = require('../admin/admin')
 const router = express.Router()
 
 
+router.post('/createad', (req, res) => {
+    const content = req.body
+    const compagnyID = 1
+    const userID = 3
+    connection.query(`INSERT INTO Job.offers (job_name, description_position, prerequisite, location, wage, contract, compagny_id, user_id) VALUES ("${content.job_name}", "${content.desc_position}", "${content.prerequisite}", "${content.location}", "${content.wage}", "${content.contract}", "${compagnyID}", "${userID}")`, (err, resultat) => {
+        if (err) {
+            console.log(err)
+            res.status(500).send('the Compagny Can\'t post an offers')
+        } else {
+            res.status(200).json(resultat)
+        }
+    })
+})
+
+
 //Compagny can post offers (checked good)
 router.post('/compagnyPostOffer', (req, res) => {
     const details = req.body
