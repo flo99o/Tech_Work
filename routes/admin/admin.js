@@ -71,7 +71,7 @@ router.delete('/userDelete/:id', (req, res) => {
             res.status(200).send('The user have been deleted')
 
         }
-    })
+    }) 
 })
 
 
