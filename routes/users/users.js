@@ -15,7 +15,7 @@ router.get('/userDetails/:id', (req, res) => {
           console.log('error: ', err);
           res.status(500).send('Error retrieving offers')
       }else res.status(200).json(results)
-  })
+  })  
 })
 
 // Tracy get offers (all routes)
@@ -30,8 +30,8 @@ router.get('/getOffers', (req, res) => {
             console.log('error: ', err);
             res.status(500).send('Error retrieving offers')
         }else res.status(200).json(results)
-    })
-})
+    }) 
+})   
 
 // Tracy get filter's values (all routes)
 router.get('/getValuesFilter', (req, res) => {
