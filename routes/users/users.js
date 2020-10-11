@@ -7,9 +7,9 @@ const router = express.Router()
 /////////////////////////////////////// GET
 
 // get all details of user
-router.get('/userDetails/:id', (req, res) => {
-  const id = req.params.id
-  connection.query(`SELECT * FROM Job.users WHERE id = ${id}
+router.get('/userDetails/:userID', (req, res) => {
+  const userID = req.params.userID
+  connection.query(`SELECT * FROM Job.users WHERE id = ${userID}
    `, (err,results) => {
       if (err) {
           console.log('error: ', err);
@@ -35,7 +35,7 @@ router.get('/getOffers', (req, res) => {
 
 // Tracy get filter's values (all routes)
 router.get('/getValuesFilter', (req, res) => {
-  connection.query(`SELECT DISTINCT offers.job_name, compagnies.compagny_name, offers.location FROM Job.offers
+  connection.query(`SELECT offers.job_name, compagnies.compagny_name, offers.location FROM Job.offers
   INNER JOIN Job.compagnies
   ON compagnies.compagnyID = offers.compagny_id`, (err,results) => {
       if (err) {
@@ -44,6 +44,45 @@ router.get('/getValuesFilter', (req, res) => {
       }else res.status(200).json(results)
   })
 })
+
+// Tracy get applied offers
+router.get('/offerApplied/:userID', (req, res) => {
+  const userID = req.params.userID
+  connection.query(`SELECT *, application.first_name AS name  FROM Job.offers
+  INNER JOIN Job.compagnies
+  ON compagnies.compagnyID = offers.compagny_id
+  INNER JOIN Job.users
+  ON users.userID = offers.user_id
+  INNER JOIN Job.application
+  ON application.offer_id = offers.offerID
+  WHERE application.user_id = ${userID}
+   
+  `, (err,results) => {
+      if (err) {
+          console.log('error: ', err);
+          res.status(500).send('Error retrieving offers')
+      }else res.status(200).json(results)
+  }) 
+})
+
+///////////////////////////UPDAte
+
+router.put("/updateProfile/:userID", (req, res) => {
+  const userID = req.params.userID
+  const newDetails = req.body
+  console.log(newDetails);
+  connection.query("UPDATE Job.users SET ? WHERE users.userID = ? ", [newDetails, userID], (err, results) => {
+    if(err) {
+      console.log(err);
+    } else {
+      res.status(200).send('Profile updated')
+    }
+  })
+})
+
+
+
+/////////////////////////////////////////////
 
 // user can post his info (checked good)
 router.post('/userPost', (req, res) => {
