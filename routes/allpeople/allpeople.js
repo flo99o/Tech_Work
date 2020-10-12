@@ -39,9 +39,6 @@ router.get("/getoffers", (req, res) => {
   });
 
 
-
-
-
 //getValuesFilter pour le fichier (works)
 
 router.get('/getValuesFilter', (req, res) => {
