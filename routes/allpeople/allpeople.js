@@ -1,5 +1,6 @@
 const connection = require('../../config')
 const express = require('express')
+<<<<<<< HEAD
 const { route } = require('../admin/admin')
 const router = express.Router()
 
@@ -22,3 +23,11 @@ router.get('/myDetails/:userID', (req, res) => {
 
   ///////////////////////////
   module.exports = router
+=======
+const router = express.Router()
+
+
+
+
+module.exports = router
+>>>>>>> 8ca521cdba453f7317baa65f4e4def7bb707ade7
