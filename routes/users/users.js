@@ -3,67 +3,58 @@ const express = require('express')
 const router = express.Router()
 
 
-// user can post his info (checked good)
-router.post('/userPost', (req, res) => {
-  const content = req.body
-  console.log(content)
-  connection.query(`INSERT INTO users (first_name, last_name,birth_date,resume,email, password) VALUES ("${content.first_name}","${content.last_name}","${content.birth_date}","${content.resume}","${content.email}","${content.passeword}")`, (err, results) => {
-    if (err) {
-      console.log(err)
-      res.status(500).send('Can\'t post this user')
-    } else {
-      console.log(err)
-      res.status(200).send('New user have been posted')
-    }
+
+// get all details of user
+router.get('/userDetails/:userID', (req, res) => {
+  const userID = req.params.userID
+  connection.query(`SELECT * FROM Job.users WHERE id = ${userID}
+   `, (err,results) => {
+      if (err) {
+          console.log('error: ', err);
+          res.status(500).send('Error retrieving offers')
+      }else res.status(200).json(results)
   })
 })
+
+//  get applied offers
+router.get('/offerApplied/:userID', (req, res) => {
+  const userID = req.params.userID
+  connection.query(`SELECT *, application.first_name AS name  FROM Job.offers
+  INNER JOIN Job.compagnies
+  ON compagnies.compagnyID = offers.compagny_id
+  INNER JOIN Job.users
+  ON users.userID = offers.user_id
+  INNER JOIN Job.application
+  ON application.offer_id = offers.offerID
+  WHERE application.user_id = ${userID}
+  `, (err,results) => {
+      if (err) {
+          console.log('error: ', err);
+          res.status(500).send('Error retrieving offers')
+      }else res.status(200).json(results)
+  })
+})
+
+
 
 // user can update his info
-router.put('/')
-
-
-//users can get all offers
-router.get('/userGetOffer', (req, res) => {
-  connection.query('SELECT * FROM Job.offers', (err, results) => {
-    if (err) {
-      console.log(err)
-      res.status(500).send('the user didn\'t get all the offers')
+router.put("/updateProfile/:userID", (req, res) => {
+  const userID = req.params.userID
+  const newDetails = req.body
+  console.log(newDetails);
+  connection.query("UPDATE Job.users SET ? WHERE users.userID = ? ", [newDetails, userID], (err, results) => {
+    if(err) {
+      console.log(err);
     } else {
-      res.send(results)
+      res.status(200).send('Profile updated')
     }
   })
 })
 
 
+// user can pst their application
 
-// user can selct one offer 
-router.get('/userSelectOffer', (req, res)=>{
-  const id = req.params.id
-  connection.query('SELECT * FROM Job.offers WHERE =? id',id, (err, results)=>{
-    if(err){
-      console.log(err)
-      res.status(500).send('This user didn\'t get this offer')
-    }else{
-      console.log(results)
-      res.status(200).send('This user select this offer.')
-    }
-  })
-})
-
-
-// users can update their information + password
-router.put('/updateUserInfo/:id', (req, res) => {
-  const details = req.body
-  connection.query(`UPDATE users SET resume="${details.resume}" WHERE =id"${details.id}"`, (err, results) => {
-    if (err) {
-      console.log(err)
-      res.status(500).status('The user information have not been updated')
-    } else {
-      res.status(results)
-    }
-  })
-
-})
+//users can delete their account
 
 
 module.exports = router

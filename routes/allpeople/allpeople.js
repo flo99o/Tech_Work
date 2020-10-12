@@ -21,17 +21,22 @@ router.post('/register',(req, res)=>{
 
 
 //getOffers pour fichier allPeople
-router.get('/getOffers', (req, res) => {
-    connection.query(`SELECT * FROM Job.offers
-    INNER JOIN Job.compagnies
-    ON compagnies.compagnyID = offers.compagny_id
-    `, (err,results) => {
+router.get("/offers", (req, res) => {
+    connection.query(
+      `SELECT * FROM Job.offers
+      INNER JOIN Job.compagnies
+      ON compagnies.compagnyID = offers.compagny_id
+      INNER JOIN Job.users
+      ON users.userID = offers.user_id
+      `,
+      (err, results) => {
         if (err) {
-            console.log('error: ', err);
-            res.status(500).send('Error retrieving offers')
-        }else res.status(200).json(results)
-    })
-})
+          console.log("error: ", err);
+          res.status(500).send("Error retrieving offers");
+        } else res.status(200).json(results);
+      }
+    );
+  });
 
 
 
@@ -49,6 +54,7 @@ router.get('/getValuesFilter', (req, res) => {
     })
   })
 
-//allpeople can update their info
+
+
 
   module.exports = router

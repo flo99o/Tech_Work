@@ -8,16 +8,30 @@ const router = express.Router()
 
 
 //Admin can get all users (checked)
-router.get('/getUsers', (req,res) => {
-    connection.query('SELECT * FROM Job.users', (err, results) => {
+router.get("/users", (req, res) => {
+    connection.query(
+      'SELECT * FROM Job.users WHERE users.type = "user"',
+      (err, results) => {
         if (err) {
-            console.log('error: ', err)
-            res.status(500).send('Don\'t find all users')
+          res.status(500).send("Don't find all users");
         } else {
-            res.status(200).json(results)
+          res.send(results);
         }
-    })
-})
+      }
+    );
+  });
+
+// Admin can get all compagny
+router.get("/compagnies", (req, res) => {
+    connection.query("SELECT * FROM Job.compagnies ", (err, results) => {
+      if (err) {
+        res.status(500).send("Don't find all compagnies");
+      } else {
+        res.send(results);
+      }
+    });
+  });
+
 
 //Admin can delete an user (checked)
 router.delete('/userDelete/:id', (req, res) => {
@@ -52,18 +66,6 @@ router.delete('/offerDelete/:id',(req, res)=>{
 
 //      COMPAGNIES
 
-
-//Admin can delete Compagny (checked good)
-router.get('/compagnies', (req, res)=>{
-    connection.query('SELECT * FROM Job.compagnies', (err, results)=>{
-        if(err){
-            console.log('error: ', err)
-            res.status(500).send('The admin didn\'t get all compagnies')
-        }else{
-            res.status(200).json(results)
-        }
-    })
-})
 
 // Admin can delete a compagny (checked)
 router.delete('/compagnyDelete/:id', (req, res) => {
