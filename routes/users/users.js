@@ -52,7 +52,13 @@ router.put("/updateProfile/:userID", (req, res) => {
 })
 
 
-// user can pst their application
+// user can post their application
+router.post('/postApplication',(req, res)=>{
+  const content = req.body
+   connection.query(`INSERT INTO `)
+    
+  }
+})
 
 //users can delete their account
 
