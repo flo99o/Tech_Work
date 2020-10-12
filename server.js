@@ -6,7 +6,6 @@ var cors = require('cors')
 const morgan = require('morgan')
 
 
-
 const port = process.env.PORT || 5000
 
 app.use(morgan('dev'))
@@ -22,6 +21,7 @@ app.get('/', (req, res)=>{
 })
 
 
+//MIDDLEWARE 
 app.use('/user', router.users)
 app.use('/admin', router.admin)
 app.use('/compagny', router.compagny)
