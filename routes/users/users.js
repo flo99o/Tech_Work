@@ -54,8 +54,9 @@ router.put("/updateProfile/:userID", (req, res) => {
 
 // user can post their application
 router.post('/postApplication',(req, res)=>{
+  
   const content = req.body
-   connection.query(`INSERT INTO `)
+   connection.query(`INSERT INTO Job.application(first_name, email, cover_letter, phone, last_name,offer_id, user_id) `)
     
   }
 })
