@@ -4,8 +4,6 @@ const router = express.Router()
 
 
 
-
-
 //  get applied offers
 router.get('/offerApplied/:userID', (req, res) => {
   const userID = req.params.userID
@@ -40,18 +38,21 @@ router.put("/updateProfile/:userID", (req, res) => {
     }
   })
 })
- 
+
 
 // // user can post their application
-// router.post('/postApplication',(req, res)=>{
-  
-//   const content = req.body
-//    connection.query(`INSERT INTO Job.application(first_name, email, cover_letter, phone, last_name,offer_id, user_id) `)
-    
-//   }
-// })
-
-//users can delete their account
+router.post('/postApplication', (req, res)=>{
+  const content = req.body
+  console.log(content)
+ connection.query(`INSERT INTO Job.application(first_name, email, cover_letter, phone, last_name,offer_id, user_id) VALUES ("${content.first_name}", "${content.email}", "${content.cover_letter}","${content.phone}", "${content.last_name}", "${content.offer_id}", "${content.user_id}") `,(err, results)=>{
+   if(err){
+     console.log('err : ' ,err)
+     res.status(500).send('The application have not been posted')
+   }else{
+     res.status(200).json(results)
+   }
+ })
+})
 
 
 module.exports = router

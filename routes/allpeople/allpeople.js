@@ -41,6 +41,7 @@ router.get("/getoffers", (req, res) => {
 
 
 
+
 //getValuesFilter pour le fichier (works)
 
 router.get('/getValuesFilter', (req, res) => {
@@ -54,6 +55,21 @@ router.get('/getValuesFilter', (req, res) => {
     })
   })
 
+  // Delete an account
+  router.delete('/deleteUserAccount/:id', (req, res)=>{
+    const userID = 3
+    console.log(userID)
+    connection.query(`DELETE FROM Job.users WHERE users.userID = "${userID}"`, (err, results)=>{
+      if(err){
+        console.log('err:  hello', err)
+        res.status(500).send('This user have not been deleted')
+      }else{
+        res.status(200).json(results)
+      }
+    })
+  })
+  
+  
   // get detail's offer (works)
   router.get("/getOffer/:idJob", (req, res) => {
     const offerID = req.params.idJob;
