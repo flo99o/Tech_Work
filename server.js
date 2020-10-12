@@ -6,7 +6,6 @@ var cors = require('cors')
 const morgan = require('morgan')
 
 
-
 const port = process.env.PORT || 5000
 
 app.use(morgan('dev'))
@@ -22,15 +21,12 @@ app.get('/', (req, res)=>{
 })
 
 
+//MIDDLEWARE 
 app.use('/user', router.users)
 app.use('/admin', router.admin)
 app.use('/compagny', router.compagny)
-<<<<<<< HEAD
-app.use('/allpeople', router.allpeople)
-=======
 app.use('/allpeople', router.allPeople)
 
->>>>>>> 8ca521cdba453f7317baa65f4e4def7bb707ade7
 
 app.listen(port, () => {
     console.log (`listening on port ${port}`)
