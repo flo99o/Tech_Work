@@ -20,7 +20,7 @@ router.post('/register',(req, res)=>{
 
 
 
-//getOffers pour fichier allPeople
+//getOffers pour fichier allPeople (works)
 router.get("/getoffers", (req, res) => {
     connection.query(
       `SELECT * FROM Job.offers
