@@ -20,13 +20,11 @@ app.get('/', (req, res)=>{
     res.render('home') 
 })
 
-
 //MIDDLEWARE 
-app.use('/user', router.users)
+app.use('/users', router.users)
 app.use('/admin', router.admin)
 app.use('/compagny', router.compagny)
 app.use('/allpeople', router.allPeople)
-
 
 
 app.listen(port, () => {
