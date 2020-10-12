@@ -49,6 +49,6 @@ router.get('/getValuesFilter', (req, res) => {
     })
   })
 
-
+//allpeople can update their info
 
   module.exports = router

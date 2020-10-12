@@ -19,7 +19,7 @@ router.post('/createad', (req, res) => {
     })
 })
 
-//Compagnies get offer applications
+//Compagnies get offer applications (checked)
 
 router.get('offerApplication',(req, res)=>{
     const userID = req.body.userID
@@ -39,7 +39,7 @@ router.put('/compagnyUpdateOffer', (req, res) => {
 
     const details = req.body
     console.log(details)
-    connection.query(`UPDATE offers SET title="${details.title}" description="${details.description}" WHERE id =?"${details.id}"`, (err, results) => {
+    connection.query(`UPDATE offers SET job_name="${details.job_name}" description_position="${details.description_post}",prerequisite="${details.prerequisite}",wage="${details.wage}",contract="${details.contract}",location="${details.location}" WHERE  offers.compagnyID ="${details.compagnyID}  AND WHERE offers.userID = "${details.userID}"`, (err, results) => {
         if (err) {
             console.log(err)
             res.status(500).send('The offer has not been updated')
@@ -50,8 +50,7 @@ router.put('/compagnyUpdateOffer', (req, res) => {
 })
 
 
-//Compagny can update their account(infos)
-//allpeople can update their indo account 
+
 
 
 //Compagny can delete offers (checked good)
@@ -67,7 +66,7 @@ router.delete('/deleteOffer/:id', (req, res) => {
     })
 })
 
-//Compagny can delete their account (mettre en cascade foreign keys)
+//Compagny can delete their account (checked)
 router.delete('/deleteCompagny', (req, res) => {
     const compagny_name = req.body.compagny_name
 
