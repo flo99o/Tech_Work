@@ -4,17 +4,7 @@ const router = express.Router()
 
 
 
-// get all details of user
-router.get('/userDetails/:userID', (req, res) => {
-  const userID = req.params.userID
-  connection.query(`SELECT * FROM Job.users WHERE id = ${userID}
-   `, (err,results) => {
-      if (err) {
-          console.log('error: ', err);
-          res.status(500).send('Error retrieving offers')
-      }else res.status(200).json(results)
-  })
-})
+
 
 //  get applied offers
 router.get('/offerApplied/:userID', (req, res) => {
@@ -50,7 +40,7 @@ router.put("/updateProfile/:userID", (req, res) => {
     }
   })
 })
-//yooooooooooooooooooooooooooooooooooooooooooooooooooooo
+ 
 
 // // user can post their application
 // router.post('/postApplication',(req, res)=>{
