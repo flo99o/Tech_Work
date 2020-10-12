@@ -21,7 +21,7 @@ router.post('/register',(req, res)=>{
 
 
 //getOffers pour fichier allPeople
-router.get("/offers", (req, res) => {
+router.get("/getoffers", (req, res) => {
     connection.query(
       `SELECT * FROM Job.offers
       INNER JOIN Job.compagnies
@@ -40,7 +40,9 @@ router.get("/offers", (req, res) => {
 
 
 
-//getValuesFilter pour le fichier allPeople
+
+
+//getValuesFilter pour le fichier (works)
 
 router.get('/getValuesFilter', (req, res) => {
     connection.query(`SELECT DISTINCT offers.job_name, compagnies.compagny_name, offers.location FROM Job.offers
@@ -68,5 +70,39 @@ router.get('/getValuesFilter', (req, res) => {
   })
   
   
+  // get detail's offer (works)
+  router.get("/getOffer/:idJob", (req, res) => {
+    const offerID = req.params.idJob;
+    connection.query(
+      `SELECT * FROM Job.offers
+      INNER JOIN Job.compagnies
+      ON compagnies.compagnyID = offers.compagny_id
+      INNER JOIN Job.users
+      ON users.userID = offers.user_id
+          WHERE offers.offerID = ${offerID} `,
+      (err, resultat) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Can't get my offers");
+        } else {
+          res.status(200).json(resultat);
+        }
+      }
+    );
+  }); 
+
+  //all user get his details
+  router.get('/userDetails/:userID', (req, res) => {
+    const userID = req.params.userID
+    connection.query(`SELECT * FROM Job.users WHERE userID = ${userID}
+     `, (err,results) => {
+        if (err) {
+            console.log('error: ', err);
+            res.status(500).send('Error retrieving offers')
+        }else res.status(200).json(results)
+    })
+  })
+
+
 
   module.exports = router
