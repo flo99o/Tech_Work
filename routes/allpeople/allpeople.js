@@ -1,23 +1,22 @@
 const connection = require('../../config')
 const express = require('express')
+const bcrypt = require('bcryptjs')
 const router = express.Router()
 
 
 
 //Register (works)
-router.post('/register',(req, res)=>{
 
+
+  router.post('/register', (req, res) => {
     const content = req.body
-    connection.query(`INSERT INTO Job.users(first_name, last_name,password,email, logo, type, compagny_name, phone, description_compagny) VALUES ("${content.first_name}", "${content.last_name}", "${content.password}","${content.email}","${content.logo}", "${content.type}", "${content.compagny_name}", "${content.phone}", "${content.description_compagny}")`
-    , (err, results)=>{
-        if(err){
-            console.log('err :',err)
-            res.status(500).send('The content have not been register')
-        }else{
-            res.status(200).json(results)
-        }
+    const password = bcrypt.hashSync(content.password)
+      connection.query(`INSERT INTO Job.users(first_name, last_name,password,email, logo, type, compagny_name, phone, description_compagny) VALUES ("${content.first_name}", "${content.last_name}", "${password}","${content.email}","${content.logo}", "${content.type}", "${content.compagny_name}", "${content.phone}", "${content.description_compagny}")`, (err, results) => {      if (err) {
+          console.log('err :', err)
+          res.status(500).send('The content have not been register')
+        } else {        res.status(200).json(results)      }
+      })
     })
-
     connection.query(`INSERT INTO Job.compagnies (compagny_name) VALUES ("${content.compagny_name}")`, (err, results)=>{
         if(err){
             console.log('err :',err)
@@ -26,37 +25,34 @@ router.post('/register',(req, res)=>{
             res.status(200).json(results)
         }
     })
-})
+
 
 
 
 
 //getOffers pour fichier allPeople (works)
 router.get("/getoffers", (req, res) => {
-    connection.query(
-      `SELECT * FROM Job.offers
+  connection.query(
+    `SELECT * FROM Job.offers
       INNER JOIN Job.compagnies
       ON compagnies.compagnyID = offers.compagny_id
       INNER JOIN Job.users
       ON users.userID = offers.user_id
       `,
-      (err, results) => {
-        if (err) {
-          console.log("error: ", err);
-          res.status(500).send("Error retrieving offers");
-        } else res.status(200).json(results);
-      }
-    );
-  });
-
-
-
+    (err, results) => {
+      if (err) {
+        console.log("error: ", err);
+        res.status(500).send("Error retrieving offers");
+      } else res.status(200).json(results);
+    }
+  );
+});
 
 
 //getValuesFilter pour le fichier (works)
 
 router.get('/getValuesFilter', (req, res) => {
-    connection.query(`SELECT DISTINCT offers.job_name, compagnies.compagny_name, offers.location FROM Job.offers
+  connection.query(`SELECT DISTINCT offers.job_name, compagnies.compagny_name, offers.location FROM Job.offers
     INNER JOIN Job.compagnies
     ON compagnies.compagnyID = offers.compagny_id`, (err,results) => {
         if (err) {
@@ -79,40 +75,41 @@ router.get('/getValuesFilter', (req, res) => {
       }
     })
   })
-  
-  
-  // get detail's offer (works)
-  router.get("/getOffer/:idJob", (req, res) => {
-    const offerID = req.params.idJob;
-    connection.query(
-      `SELECT * FROM Job.offers
+
+
+
+// get detail's offer (works)
+router.get("/getOffer/:idJob", (req, res) => {
+  const offerID = req.params.idJob;
+  connection.query(
+    `SELECT * FROM Job.offers
       INNER JOIN Job.compagnies
       ON compagnies.compagnyID = offers.compagny_id
       INNER JOIN Job.users
       ON users.userID = offers.user_id
           WHERE offers.offerID = ${offerID} `,
-      (err, resultat) => {
-        if (err) {
-          console.log(err);
-          res.status(500).send("Can't get my offers");
-        } else {
-          res.status(200).json(resultat);
-        }
+    (err, resultat) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Can't get my offers");
+      } else {
+        res.status(200).json(resultat);
       }
-    );
-  }); 
+    }
+  );
+});
 
-  //all user get his details
-  router.get('/userDetails/:userID', (req, res) => {
-    const userID = req.params.userID
-    connection.query(`SELECT * FROM Job.users WHERE userID = ${userID}
-     `, (err,results) => {
-        if (err) {
-            console.log('error: ', err);
-            res.status(500).send('Error retrieving offers')
-        }else res.status(200).json(results)
-    })
+//all user get his details
+router.get('/userDetails/:userID', (req, res) => {
+  const userID = req.params.userID
+  connection.query(`SELECT * FROM Job.users WHERE userID = ${userID}
+     `, (err, results) => {
+    if (err) {
+      console.log('error: ', err);
+      res.status(500).send('Error retrieving offers')
+    } else res.status(200).json(results)
   })
+})
 
 ////////////////////////////////// UPDATE
 
@@ -130,4 +127,4 @@ router.put("/updateProfile/:userID", (req, res) => {
   })
 })
 
-  module.exports = router
+module.exports = router
