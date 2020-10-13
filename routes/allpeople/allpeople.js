@@ -16,14 +16,7 @@ const router = express.Router()
           res.status(500).send('The content have not been register')
         } else {        res.status(200).json(results)      }
       })
-    })
-    connection.query(`INSERT INTO Job.compagnies (compagny_name) VALUES ("${content.compagny_name}")`, (err, results)=>{
-        if(err){
-            console.log('err :',err)
-            res.status(500).send('The content have not been register')
-        }else{
-            res.status(200).json(results)
-        }
+      connection.query(`INSERT INTO Job.compagnies (compagny_name) VALUES ("${content.compagny_name}")`)
     })
 
 
