@@ -7,10 +7,10 @@ const router = express.Router()
 //   USERS
 
 
-//Admin can get all users (checked)
+//Admin can get all users (works)
 router.get("/users", (req, res) => {
     connection.query(
-      'SELECT * FROM Job.users WHERE users.type = "user"',
+      'SELECT * FROM Job.users WHERE users.type = "user" OR users.type = "admin"',
       (err, results) => {
         if (err) {
           res.status(500).send("Don't find all users");
