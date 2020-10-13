@@ -34,22 +34,7 @@ router.post('/signin', (req, res) => {
                 })
             }
 
-            // if (!username || !password) {
-            //     return res.status(422).json({ err: "Please add all the fields." })
-            // }
-            // if (email && password) {
-            //     console.log(err)
-            //     res.status(200).send({ msg: 'Incorrect password and/or username' })
-            // } else {
-            //     console.log(results)
-            // }
-            // if (err) {
-            //     console.log('error: ', err)
-            //     res.status(500).send('This compagny have not been deleted')
-            // } else {
-
-            //     console.log(results)
-            // }
+           
         })
 
 
