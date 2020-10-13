@@ -22,11 +22,6 @@ router.post('/register', (req, res) => {
     })
   })
 
-
-
-
-
-
 //getOffers pour fichier allPeople
 router.get("/getoffers", (req, res) => {
   connection.query(

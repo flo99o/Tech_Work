@@ -6,8 +6,8 @@ const router = express.Router()
 
 router.post('/signin', (req, res) => {
   
-    const email = 'lilou@gmail.fr'
-    const password = 'Password4'
+    const email = req.body.email
+    const password = req.body.password
         connection.query(`SELECT * FROM Job.users WHERE  email = "${email}" `, (err, results) => {
             if(err){
                 console.log(err)
@@ -19,6 +19,7 @@ router.post('/signin', (req, res) => {
             if(!passwordValid){
                 console.log('password incorrect')
             }else{
+                console.log('Welcome')
                 res.status(200).send({
                     userID: results[0].userID,
                     userType: results[0].userType,
