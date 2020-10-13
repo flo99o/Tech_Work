@@ -4,16 +4,16 @@ const { route } = require('../admin/admin')
 const router = express.Router()
 
 
-//Get all offer by compagny
+//Get all offer by compagny (works)
 router.get("/getMyOffers/:id", (req, res) => {
-    const compagnyID = req.params.id;
+    const userID = req.params.id;
     connection.query(
       `SELECT * FROM Job.offers
       INNER JOIN Job.compagnies
       ON compagnies.compagnyID = offers.compagny_id
       INNER JOIN Job.users
       ON users.userID = offers.user_id
-          WHERE compagny_id = ${compagnyID} `,
+          WHERE user_id = ${userID} `,
       (err, resultat) => {
         if (err) {
           console.log(err);
@@ -78,10 +78,11 @@ router.put('/compagnyUpdateOffer', (req, res) => {
 
 
 
-
-//Compagny can delete offers (checked good)
+//Compagny can delete offers (works)
 router.delete('/deleteOffer/:id', (req, res) => {
-    const offerID = req.params.offerID
+  
+    const offerID = req.params.id
+    console.log('offerID:', offerID)
     connection.query(`DELETE FROM Job.offers WHERE offerID = "${offerID}"`, (err, results) => {
         if (err) {
             console.log(err)

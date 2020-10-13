@@ -2,7 +2,7 @@ const connection = require('../../config')
 const express = require('express')
 const router = express.Router()
 
-
+ 
 
 //  get applied offers
 router.get('/offerApplied/:userID', (req, res) => {
@@ -25,22 +25,10 @@ router.get('/offerApplied/:userID', (req, res) => {
 
 
 
-// user can update his info
-router.put("/updateProfile/:userID", (req, res) => {
-  const userID = req.params.userID
-  const newDetails = req.body
-  console.log(newDetails);
-  connection.query("UPDATE Job.users SET ? WHERE users.userID = ? ", [newDetails, userID], (err, results) => {
-    if(err) {
-      console.log(err);
-    } else {
-      res.status(200).send('Profile updated')
-    }
-  })
-})
 
+ 
 
-// // user can post their application
+// // user can post their application (works)
 router.post('/postApplication', (req, res)=>{
   const content = req.body
   console.log(content)
@@ -53,6 +41,6 @@ router.post('/postApplication', (req, res)=>{
    }
  })
 })
+ 
 
-
-module.exports = router
+module.exports = router 

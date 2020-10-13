@@ -4,10 +4,21 @@ const router = express.Router()
 
 
 
-//Register
+//Register (works)
 router.post('/register',(req, res)=>{
+
     const content = req.body
-    connection.query(`INSERT INTO Job.users(first_name, last_name,password,email, logo, type, compagny_name, phone, description_compagny) VALUES ("${content.first_name}", "${content.last_name}", "${content.password}","${content.email}","${content.logo}", "${content.type}", "${content.compagny_name}", "${content.phone}", "${content.description_compagny}")`, (err, results)=>{
+    connection.query(`INSERT INTO Job.users(first_name, last_name,password,email, logo, type, compagny_name, phone, description_compagny) VALUES ("${content.first_name}", "${content.last_name}", "${content.password}","${content.email}","${content.logo}", "${content.type}", "${content.compagny_name}", "${content.phone}", "${content.description_compagny}")`
+    , (err, results)=>{
+        if(err){
+            console.log('err :',err)
+            res.status(500).send('The content have not been register')
+        }else{
+            res.status(200).json(results)
+        }
+    })
+
+    connection.query(`INSERT INTO Job.compagnies (compagny_name) VALUES ("${content.compagny_name}")`, (err, results)=>{
         if(err){
             console.log('err :',err)
             res.status(500).send('The content have not been register')
@@ -53,11 +64,11 @@ router.get('/getValuesFilter', (req, res) => {
             res.status(500).send('Error retrieving datas')
         }else res.status(200).json(results)
     })
-  })
+  }) 
 
-  // Delete an account
+  // Delete an account (works)
   router.delete('/deleteUserAccount/:id', (req, res)=>{
-    const userID = 3
+    const userID = req.params.id
     console.log(userID)
     connection.query(`DELETE FROM Job.users WHERE users.userID = "${userID}"`, (err, results)=>{
       if(err){
@@ -103,6 +114,20 @@ router.get('/getValuesFilter', (req, res) => {
     })
   })
 
+////////////////////////////////// UPDATE
 
+// all users can update his info (works)
+router.put("/updateProfile/:userID", (req, res) => {
+  const userID = req.params.userID
+  const newDetails = req.body
+  console.log(newDetails);
+  connection.query("UPDATE Job.users SET ? WHERE users.userID = ? ", [newDetails, userID], (err, results) => {
+    if(err) {
+      console.log(err);
+    } else {
+      res.status(200).send('Profile updated')
+    }
+  })
+})
 
   module.exports = router
