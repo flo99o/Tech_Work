@@ -81,7 +81,7 @@ router.put('/compagnyUpdateOffer', (req, res) => {
 
 //Compagny can delete offers (checked good)
 router.delete('/deleteOffer/:id', (req, res) => {
-    const offerID = req.params.offerID
+    const offerID = req.params.id
     connection.query(`DELETE FROM Job.offers WHERE offerID = "${offerID}"`, (err, results) => {
         if (err) {
             console.log(err)
