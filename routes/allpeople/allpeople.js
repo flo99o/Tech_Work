@@ -29,7 +29,9 @@ router.post("/register", (req, res) => {
     } else {
       res.status(200).send({
         userID: results[0].userID,
+       
       });
+      console.log(results[0].userID)
     }
   })
 });
