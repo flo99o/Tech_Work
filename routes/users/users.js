@@ -1,5 +1,6 @@
 const connection = require('../../config')
 const express = require('express')
+const { route } = require('../admin/admin')
 const router = express.Router()
 
  
@@ -42,5 +43,11 @@ router.post('/postApplication', (req, res)=>{
  })
 })
  
+//delete application (works)
+router.delete("/deleteApplication/:userID/:offerID", (req,res) => {
+  const userID = req.params.userID;
+  const offerID = req.params.offerID
+  connection.query(`DELETE FROM Job.application WHERE user_id = ${userID} AND offer_id = ${offerID}`)
+})
 
 module.exports = router 

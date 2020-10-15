@@ -82,7 +82,6 @@ router.put('/compagnyUpdateOffer', (req, res) => {
 router.delete('/deleteOffer/:id', (req, res) => {
   
     const offerID = req.params.id
-    console.log('offerID:', offerID)
     connection.query(`DELETE FROM Job.offers WHERE offerID = "${offerID}"`, (err, results) => {
         if (err) {
             console.log(err)
@@ -94,9 +93,9 @@ router.delete('/deleteOffer/:id', (req, res) => {
 })
 
 //Compagny can delete their account (checked)
-router.delete('/deleteCompagny', (req, res) => {
-    const compagny_name = req.body.compagny_name
-
+router.delete('/deleteCompagny/:compagny_name', (req, res) => {
+    const compagny_name = req.params.compagny_name
+  
     connection.query(`DELETE Job.compagnies , Job.users FROM Job.compagnies INNER JOIN Job.users ON compagnies.compagny_name = users.compagny_name WHERE compagnies.compagny_name = "${compagny_name}"`, (err, results) => {
         if (err) {
             console.log(err)
