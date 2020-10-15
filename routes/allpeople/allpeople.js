@@ -27,7 +27,7 @@ router.post("/register", (req, res) => {
       console.log("err :", err);
     } else {
       res.status(200).send({
-        userID: results[0].userID
+        userID: results[0].userID,
       });
     }
   })
