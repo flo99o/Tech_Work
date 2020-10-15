@@ -16,6 +16,7 @@ router.post("/register", (req, res) => {
         res.status(500).send("The content have not been register");
       } else {
         console.log('user has been register');
+        res.status(200).json(results)
       }
     }
   );

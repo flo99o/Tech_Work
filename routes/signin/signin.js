@@ -34,7 +34,10 @@ router.post("/signin", (req, res) => {
         });
       }
     }
+    
   );
+  // console.log(email)
+  // console.log(password)
 });
 
 module.exports = router;
