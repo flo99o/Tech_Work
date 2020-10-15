@@ -29,7 +29,8 @@ router.post("/register", (req, res) => {
     } else {
       res.status(200).send({
         userID: results[0].userID,
-       
+        userType: results[0].type,
+        isLogged: true
       });
       console.log(results[0].userID)
     }
