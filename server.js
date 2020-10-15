@@ -4,7 +4,7 @@ const router = require ('./routes/index')
 const bodyParser = require ('body-parser')
 var cors = require('cors')
 const morgan = require('morgan')
-
+const session = require('express-session')
 
 const port = process.env.PORT || 5000
 
@@ -26,6 +26,15 @@ app.use('/admin', router.admin)
 app.use('/compagny', router.compagny)
 app.use('/allpeople', router.allPeople)
 app.use('/signin', router.signin)
+
+app.set('trust proxy', 1)
+app.use(session({
+
+    secret:'',
+    resave: false,
+    secure: true
+
+}))
 
 
 app.listen(port, () => {
