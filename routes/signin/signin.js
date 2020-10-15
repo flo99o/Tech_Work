@@ -22,7 +22,7 @@ router.post("/signin", (req, res) => {
         console.log("Welcome");
         res.status(200).send({
           userID: results[0].userID,
-          userType: results[0].userType,
+          userType: results[0].type,
           email: results[0].email,
           first_name: results[0].first_name,
           last_name: results[0].last_name,
