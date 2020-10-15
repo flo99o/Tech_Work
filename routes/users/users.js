@@ -25,7 +25,14 @@ router.get('/offerApplied/:userID', (req, res) => {
 })
 
 
-
+//get the userID of the last row of the Job.users (works)
+router.get('/lastUserID', (req,res) => {
+  connection.query('select userID from Job.users ORDER BY userID DESC LIMIT 1', (err,results) => {
+    if (err) {
+      res.status(500).send("Error retrieving userID")
+    }else res.status(200).json(results)
+  })
+})
 
  
 

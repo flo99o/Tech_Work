@@ -5,10 +5,14 @@ const router = express.Router();
 
 router.post("/signin", (req, res) => {
   const email = req.body.email;
+  console.log("email:", email);
+
   const password = req.body.password;
 
   connection.query(
-    `SELECT * FROM Job.users WHERE  email = "${email}" `,
+    `SELECT * FROM Job.users
+    LEFT JOIN Job.compagnies
+    ON compagnies.compagny_name = users.compagny_name WHERE  email = "${email}" `,
     (err, results) => {
       if (err) {
         console.log(err);
@@ -31,6 +35,7 @@ router.post("/signin", (req, res) => {
           compagny_name: results[0].compagny_name,
           logo: results[0].logo,
           isLogged: true,
+          compagnyID: results[0].compagnyID
         });
       }
     }
