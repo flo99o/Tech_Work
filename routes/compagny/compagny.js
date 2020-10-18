@@ -57,6 +57,21 @@ router.get("/offerApplication", (req, res) => {
   );
 });
 
+// get application of their offers
+router.get("/application/:compagny_name", (req, res) => {
+  const compagny_name = req.params.compagny_name
+  connection.query(`SELECT * FROM Job.application INNER JOIN Job.offers ON application.offer_id = offers.offerID WHERE offers.compagny_name = "${compagny_name}" `,
+  (err, results) => {
+    if (err) {
+      console.log("err: ", err);
+      res.status(500).send("The compagny didn\t find the application");
+    } else {
+      res.status(200).json(results);
+    }
+  }
+  )
+})
+
 // Compagny can update their offers
 router.put("/compagnyUpdateOffer", (req, res) => {
   const details = req.body;
