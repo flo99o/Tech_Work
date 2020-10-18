@@ -7,10 +7,10 @@ const router = express.Router()
 //   USERS
 
 
-//Admin can get all users (checked)
+//Admin can get all users (works)
 router.get("/users", (req, res) => {
     connection.query(
-      'SELECT * FROM Job.users WHERE users.type = "user"',
+      'SELECT * FROM Job.users WHERE users.type = "user" OR users.type = "admin"',
       (err, results) => {
         if (err) {
           res.status(500).send("Don't find all users");
@@ -35,7 +35,7 @@ router.get("/compagnies", (req, res) => {
 
 //Admin can delete an user (checked)
 router.delete('/userDelete/:id', (req, res) => {
-    const userID = req.params.userID
+    const userID = req.params.id
     connection.query(`DELETE FROM Job.users WHERE userID = "${userID}"`, (err, results) => {
         if (err) {
             console.log('error: ', err)
@@ -52,7 +52,7 @@ router.delete('/userDelete/:id', (req, res) => {
 
 //Admin can delete an offer (checked)
 router.delete('/offerDelete/:id',(req, res)=>{
-    const offerID = req.params.offerID
+    const offerID = req.params.id
  connection.query(`DELETE FROM Job.offers WHERE offerID = "${offerID}"`,(err, results)=>{
      if(err){
          console.log('error: ', err)
@@ -69,7 +69,7 @@ router.delete('/offerDelete/:id',(req, res)=>{
 
 // Admin can delete a compagny (checked)
 router.delete('/compagnyDelete/:id', (req, res) => {
-    const compagnyID = req.params.compagnyID
+    const compagnyID = req.params.id
     connection.query(`DELETE FROM Job.compagnies WHERE compagnyID = "${compagnyID}"`,(err , results) => {
         if (err) {
             console.log('error: ', err)

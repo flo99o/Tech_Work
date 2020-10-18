@@ -14,19 +14,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 
-
-app.set('view engine', 'ejs')
-app.get('/', (req, res)=>{
-    res.render('home') 
-})
-
-
 //MIDDLEWARE 
-app.use('/user', router.users)
+app.use('/users', router.users)
 app.use('/admin', router.admin)
 app.use('/compagny', router.compagny)
 app.use('/allpeople', router.allPeople)
-
+app.use('/signin', router.signin)
 
 
 app.listen(port, () => {
