@@ -153,18 +153,15 @@ router.get("/userDetails/:userID", (req, res) => {
 router.put("/updateProfile/:userID", (req, res) => {
   console.log(req.body);
   const userID = req.params.userID;
-  const newDetails = req.body;
-  const password = bcrypt.hashSync(newDetails.password)
-  console.log(newDetails);
+  const newDetails = {...req.body, password:bcrypt.hashSync(req.body.password)}
   connection.query(
     "UPDATE Job.users SET ? WHERE users.userID = ? ",
-    [{...newDetails,password} , userID],
+    [newDetails , userID],
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        res.status(200).send("Profile updated");
-        console.log("results: ", results);
+        res.status(200).json(results);
       }
     }
   );
