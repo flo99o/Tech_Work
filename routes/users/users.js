@@ -3,7 +3,7 @@ const express = require('express')
 const { route } = require('../admin/admin')
 const router = express.Router()
 
- 
+
 
 //  get applied offers
 router.get('/offerApplied/:userID', (req, res) => { 

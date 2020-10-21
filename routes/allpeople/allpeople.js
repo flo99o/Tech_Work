@@ -25,7 +25,6 @@ router.post("/register", (req, res) => {
     );
     console.log('compagny');
     connection.query(
-
       `INSERT INTO Job.compagnies SELECT users.userID, users.compagny_name FROM Job.users WHERE userID = LAST_INSERT_ID()`
     );
   } //requête for others users 
@@ -151,9 +150,11 @@ router.get("/userDetails/:userID", (req, res) => {
 
 // all users can update his info (works)
 router.put("/updateProfile/:userID", (req, res) => {
-  console.log(req.body);
   const userID = req.params.userID;
-  const newDetails = {...req.body, password:bcrypt.hashSync(req.body.password)}
+  if(req.body.password){
+    req.body.password = bcrypt.hashSync(req.body.password)
+  }
+  const newDetails = req.body 
   connection.query(
     "UPDATE Job.users SET ? WHERE users.userID = ? ",
     [newDetails , userID],
