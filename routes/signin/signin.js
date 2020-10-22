@@ -8,7 +8,7 @@ router.post("/signin", (req, res) => {
   console.log("email:", email);
 
   const password = req.body.password;
-
+ 
   connection.query(
     `SELECT * FROM Job.users
     LEFT JOIN Job.compagnies
@@ -41,8 +41,6 @@ router.post("/signin", (req, res) => {
     }
     
   );
-  // console.log(email)
-  // console.log(password)
 });
 
 module.exports = router;
