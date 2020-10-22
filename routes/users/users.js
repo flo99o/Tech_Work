@@ -1,12 +1,12 @@
 const connection = require('../../config')
 const express = require('express')
 const { route } = require('../admin/admin')
-const router = express.Router()
+const router = express.Router() 
 
- 
+
 
 //  get applied offers
-router.get('/offerApplied/:userID', (req, res) => {
+router.get('/offerApplied/:userID', (req, res) => { 
   const userID = req.params.userID
   connection.query(`SELECT *, application.first_name AS name  FROM Job.offers
   INNER JOIN Job.compagnies
@@ -22,8 +22,8 @@ router.get('/offerApplied/:userID', (req, res) => {
           res.status(500).send('Error retrieving offers')
       }else res.status(200).json(results)
   })
-})
-
+}) 
+ 
 
 //get the userID of the last row of the Job.users (works)
 router.get('/lastUserID', (req,res) => {
@@ -32,15 +32,15 @@ router.get('/lastUserID', (req,res) => {
       res.status(500).send("Error retrieving userID")
     }else res.status(200).json(results)
   })
-})
+})  
 
- 
+
 
 // // user can post their application (works)
 router.post('/postApplication', (req, res)=>{
   const content = req.body
   console.log(content)
- connection.query(`INSERT INTO Job.application(first_name, email, cover_letter, phone, last_name,offer_id, user_id) VALUES ("${content.first_name}", "${content.email}", "${content.cover_letter}","${content.phone}", "${content.last_name}", "${content.offer_id}", "${content.user_id}") `,(err, results)=>{
+ connection.query(`INSERT INTO Job.application(first_name, email, cover_letter, phone, last_name,offer_id, user_id, compagny_id) VALUES ("${content.first_name}", "${content.email}", "${content.cover_letter}","${content.phone}", "${content.last_name}", "${content.offer_id}", "${content.user_id}", "${content.compagny_id}") `,(err, results)=>{
    if(err){
      console.log('err : ' ,err)
      res.status(500).send('The application have not been posted')

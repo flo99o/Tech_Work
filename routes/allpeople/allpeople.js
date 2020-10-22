@@ -25,8 +25,7 @@ router.post("/register", (req, res) => {
     );
     console.log('compagny');
     connection.query(
-
-      `INSERT INTO Job.compagnies SELECT users.userID, users.compagny_name FROM Job.users WHERE userID = LAST_INSERT_ID()`
+      `INSERT INTO Job.compagnies SELECT users.userID, users.compagny_name, users.userID FROM Job.users WHERE userID = LAST_INSERT_ID()`
     );
   } //requête for others users 
   else {
@@ -151,20 +150,19 @@ router.get("/userDetails/:userID", (req, res) => {
 
 // all users can update his info (works)
 router.put("/updateProfile/:userID", (req, res) => {
-  console.log(req.body);
   const userID = req.params.userID;
-  const newDetails = req.body;
-  const password = bcrypt.hashSync(newDetails.password)
-  console.log(newDetails);
+  if(req.body.password){
+    req.body.password = bcrypt.hashSync(req.body.password)
+  }
+  const newDetails = req.body 
   connection.query(
     "UPDATE Job.users SET ? WHERE users.userID = ? ",
-    [{...newDetails,password} , userID],
+    [newDetails , userID],
     (err, results) => {
       if (err) {
         console.log(err);
       } else {
-        res.status(200).send("Profile updated");
-        console.log("results: ", results);
+        res.status(200).json(results);
       }
     }
   );
