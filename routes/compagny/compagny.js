@@ -11,7 +11,7 @@ router.get("/getMyOffers/:id", (req, res) => {
       ON compagnies.compagny_name = offers.compagny_name
       INNER JOIN Job.users
       ON users.userID = offers.user_id
-          WHERE user_id = ${userID} `,
+          WHERE users.user_id = ${userID} `,
     (err, resultat) => {
       if (err) {
         console.log(err);
@@ -105,28 +105,6 @@ router.delete("/deleteOffer/:id", (req, res) => {
   );
 });
 
-//Compagny can delete their account (checked)
-router.delete("/deleteCompagny/:compagny_name", (req, res) => {
-  const compagny_name = req.params.compagny_name;
-
-  connection.query(
-    `DELETE Job.compagnies, Job.users, Job.offers
-    FROM Job.users
-    INNER JOIN Job.compagnies
-    ON users.compagny_name = compagnies.compagny_name
-    INNER JOIN Job.offers
-    ON users.userID = offers.user_id
-    WHERE compagnies.compagny_name = "${compagny_name}"`,
-    (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send("This has not deleted her informations");
-      } else {
-        res.status(200).json(results);
-      }
-    }
-  );
-});
 
 //update a offer
 router.put("/updatead/:offerID", (req,res) => {

@@ -25,7 +25,7 @@ router.post("/register", (req, res) => {
     );
     console.log('compagny');
     connection.query(
-      `INSERT INTO Job.compagnies SELECT users.userID, users.compagny_name FROM Job.users WHERE userID = LAST_INSERT_ID()`
+      `INSERT INTO Job.compagnies SELECT users.userID, users.compagny_name, users.userID FROM Job.users WHERE userID = LAST_INSERT_ID()`
     );
   } //requête for others users 
   else {
